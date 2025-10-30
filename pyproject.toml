@@ -1,0 +1,26 @@
+[project]
+name = "char-index-mcp"
+version = "0.1.0"
+description = "A Model Context Protocol server for character-level index-based string manipulation"
+authors = [
+    {name = "agent-hanju", email = "agent.hanju@gmail.com"},
+    {name = "Claude (Anthropic)"}
+]
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/agent-hanju/char-index-mcp"
+Repository = "https://github.com/agent-hanju/char-index-mcp"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+]
