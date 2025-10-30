@@ -1,14 +1,26 @@
 [project]
 name = "char-index-mcp"
-version = "0.2.0"
+version = "0.2.1"
 description = "A Model Context Protocol server for character-level index-based string manipulation"
+readme = "README.md"
 authors = [
-    {name = "agent-hanju", email = "agent.hanju@gmail.com"},
-    {name = "Claude (Anthropic)"}
+    {name = "agent-hanju", email = "agent.hanju@gmail.com"}
 ]
 requires-python = ">=3.10"
 dependencies = [
     "mcp>=1.0.0",
+]
+keywords = ["mcp", "string-manipulation", "character-index", "text-processing", "claude", "ai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing",
 ]
 
 [project.urls]

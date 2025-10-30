@@ -2,7 +2,10 @@
 
 A Model Context Protocol (MCP) server providing **character-level index-based string manipulation**. Perfect for test code generation where precise character positioning matters.
 
+[![smithery badge](https://smithery.ai/badge/char-index-mcp)](https://smithery.ai/server/char-index-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPI](https://img.shields.io/pypi/v/char-index-mcp)](https://pypi.org/project/char-index-mcp/)
+[![Python](https://img.shields.io/pypi/pyversions/char-index-mcp)](https://pypi.org/project/char-index-mcp/)
 
 > This project was created with Claude AI.
 
@@ -36,24 +39,27 @@ LLMs generate text token-by-token and struggle with exact character counting. Wh
 
 ## 🚀 Installation
 
-### Prerequisites
-- Python 3.10+
-- [uv](https://docs.astral.sh/uv/) package manager
+### Option 1: Using uvx (Recommended)
 
-### Install uv
+No installation required! Just configure and run:
+
 ```bash
-# macOS/Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Windows
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+# Test it works
+uvx char-index-mcp --help
 ```
 
-### Clone & Setup
+### Option 2: From PyPI
+
+```bash
+pip install char-index-mcp
+```
+
+### Option 3: From Source
+
 ```bash
 git clone https://github.com/agent-hanju/char-index-mcp.git
 cd char-index-mcp
-uv sync
+pip install -e .
 ```
 
 ## 🔧 Configuration
@@ -64,47 +70,65 @@ uv sync
 
 **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add this configuration:
+#### Using uvx (Recommended)
 
 ```json
 {
   "mcpServers": {
     "char-index": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/ABSOLUTE/PATH/TO/char-index-mcp",
-        "run",
-        "server.py"
-      ]
+      "command": "uvx",
+      "args": ["char-index-mcp"]
     }
   }
 }
 ```
 
-Replace `/ABSOLUTE/PATH/TO/` with your actual path.
+#### Using pip install
+
+```json
+{
+  "mcpServers": {
+    "char-index": {
+      "command": "char-index-mcp"
+    }
+  }
+}
+```
 
 ### Claude Code
 
 ```bash
-claude mcp add char-index '{"command":"uv","args":["--directory","/ABSOLUTE/PATH/TO/char-index-mcp","run","server.py"]}'
+# Using uvx (recommended)
+claude mcp add char-index '{"command":"uvx","args":["char-index-mcp"]}'
+
+# Using pip install
+claude mcp add char-index '{"command":"char-index-mcp"}'
 ```
 
 ### Cursor
 
 Add to `~/.cursor/mcp.json`:
 
+#### Using uvx (Recommended)
+
 ```json
 {
   "mcpServers": {
     "char-index": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/ABSOLUTE/PATH/TO/char-index-mcp",
-        "run",
-        "server.py"
-      ]
+      "command": "uvx",
+      "args": ["char-index-mcp"]
+    }
+  }
+}
+```
+
+#### Using pip install
+
+```json
+{
+  "mcpServers": {
+    "char-index": {
+      "command": "char-index-mcp"
     }
   }
 }
@@ -185,14 +209,21 @@ extract_between_markers("start[content]end", "[", "]", 1)
 # }
 ```
 
-## 🧪 Testing
+## 🧪 Development
 
 ```bash
+# Clone the repository
+git clone https://github.com/agent-hanju/char-index-mcp.git
+cd char-index-mcp
+
+# Install in development mode
+pip install -e ".[dev]"
+
 # Run tests
-uv run pytest
+pytest
 
 # Run with coverage
-uv run pytest --cov=. --cov-report=term-missing
+pytest --cov=char_index_mcp --cov-report=term-missing
 ```
 
 ## 🎯 Use Cases

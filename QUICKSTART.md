@@ -1,31 +1,29 @@
 # Quick Start Guide
 
-Get up and running with char-index-mcp server in 5 minutes!
+Get up and running with char-index-mcp server in 2 minutes!
 
 > This project was created with Claude AI.
 
-## Installation (5 minutes)
+## Installation (30 seconds)
 
-### 1. Install uv (if not already installed)
+### Option 1: Using uvx (Recommended - No Installation!)
+
+Just configure and it works! Skip directly to [Configure with Claude Desktop](#configure-with-claude-desktop).
+
+### Option 2: Using pip
+
 ```bash
-# macOS/Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Windows
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+pip install char-index-mcp
 ```
 
-### 2. Clone and setup
-```bash
-git clone https://github.com/agent-hanju/char-index-mcp.git
-cd char-index-mcp
-uv sync
-```
+### Test it works
 
-### 3. Test it works
 ```bash
-python -c "from server import find_nth_char; print(find_nth_char('hello', 'l', 2))"
-# Should output: 3
+# Test the CLI is available
+char-index-mcp --help
+
+# Or with uvx
+uvx char-index-mcp --help
 ```
 
 ## Configure with Claude Desktop
@@ -43,30 +41,31 @@ code %APPDATA%\Claude\claude_desktop_config.json
 ```
 
 ### Add this configuration:
+
+**Option 1: Using uvx (Recommended)**
 ```json
 {
   "mcpServers": {
     "char-index": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/ABSOLUTE/PATH/TO/char-index-mcp",
-        "run",
-        "server.py"
-      ]
+      "command": "uvx",
+      "args": ["char-index-mcp"]
     }
   }
 }
 ```
 
-**Important**: Replace `/ABSOLUTE/PATH/TO/` with your actual path!
+**Option 2: Using pip install**
+```json
+{
+  "mcpServers": {
+    "char-index": {
+      "command": "char-index-mcp"
+    }
+  }
+}
+```
 
-Examples:
-- macOS: `/Users/yourname/char-index-mcp`
-- Windows: `C:\\Users\\yourname\\char-index-mcp`
-- Linux: `/home/yourname/char-index-mcp`
-
-### 4. Restart Claude Desktop
+### Restart Claude Desktop
 
 Look for the 🔨 hammer icon - that means the MCP tools are loaded!
 
@@ -143,26 +142,20 @@ Try asking:
 ## Troubleshooting
 
 ### "Server not loaded" or "No hammer icon"
-1. Check the path is absolute (not relative)
-   - ❌ Wrong: `"./char-index-mcp"` or `"char-index-mcp"`
-   - ✅ Right: `"/Users/yourname/char-index-mcp"` or `"C:\\Users\\yourname\\char-index-mcp"`
-2. Check you restarted Claude Desktop completely (Quit and reopen)
-3. Check the config file has valid JSON (no trailing commas, quotes matched)
+1. Check you restarted Claude Desktop completely (Quit and reopen)
+2. Check the config file has valid JSON (no trailing commas, quotes matched)
+3. If using uvx, make sure it's installed: `pip install uvx` or `pipx install uv`
 4. Check the logs:
    - macOS: `~/Library/Logs/Claude/mcp*.log`
    - Windows: `%APPDATA%\Claude\logs\mcp*.log`
 
 ### "Module not found" or "ImportError"
 ```bash
-cd /path/to/char-index-mcp
-uv sync
-```
+# Reinstall the package
+pip install --force-reinstall char-index-mcp
 
-This will reinstall all dependencies.
-
-### "Permission denied" (Linux/macOS)
-```bash
-chmod +x server.py
+# Or with uvx, clear the cache
+uvx --refresh char-index-mcp --help
 ```
 
 ### Config file doesn't exist
@@ -184,7 +177,11 @@ New-Item -Path "$env:APPDATA\Claude\claude_desktop_config.json" -ItemType File -
 You can test the server directly using the MCP inspector:
 
 ```bash
-npx @modelcontextprotocol/inspector uv --directory /path/to/char-index-mcp run server.py
+# With uvx
+npx @modelcontextprotocol/inspector uvx char-index-mcp
+
+# With pip install
+npx @modelcontextprotocol/inspector char-index-mcp
 ```
 
 This will open a web interface where you can test all the tools.
@@ -283,35 +280,37 @@ find_regex_matches(text, r"\b\w{5}\b")
 
 ### With Claude Code
 ```bash
-# Add to Claude Code
-claude mcp add char-index '{"command":"uv","args":["--directory","/absolute/path/char-index-mcp","run","server.py"]}'
+# Using uvx (recommended)
+claude mcp add char-index '{"command":"uvx","args":["char-index-mcp"]}'
+
+# Using pip install
+claude mcp add char-index '{"command":"char-index-mcp"}'
 ```
 
 ### With Cursor
 Add to `~/.cursor/mcp.json`:
+
+**Using uvx (Recommended)**
 ```json
 {
   "mcpServers": {
     "char-index": {
-      "command": "uv",
-      "args": ["--directory", "/absolute/path/char-index-mcp", "run", "server.py"]
+      "command": "uvx",
+      "args": ["char-index-mcp"]
     }
   }
 }
 ```
 
-### With Custom MCP Clients
-Use the standard MCP protocol to connect:
-```python
-from mcp import ClientSession
-
-session = ClientSession()
-await session.initialize()
-result = await session.call_tool("find_nth_char", {
-    "text": "hello",
-    "char": "l",
-    "n": 2
-})
+**Using pip install**
+```json
+{
+  "mcpServers": {
+    "char-index": {
+      "command": "char-index-mcp"
+    }
+  }
+}
 ```
 
 ## Next Steps
@@ -321,23 +320,27 @@ result = await session.call_tool("find_nth_char", {
 - 🌟 Star the repo if you find it useful!
 - 🐛 Report bugs or request features via GitHub Issues
 
-## Useful Commands
+## Development Commands
+
+For contributors and developers:
 
 ```bash
+# Clone and install in dev mode
+git clone https://github.com/agent-hanju/char-index-mcp.git
+cd char-index-mcp
+pip install -e ".[dev]"
+
 # Run tests
-uv run pytest
+pytest
 
 # Run with coverage
-uv run pytest --cov=. --cov-report=term-missing
+pytest --cov=char_index_mcp --cov-report=term-missing
 
 # Format code
-uv run black .
+black .
 
 # Lint code
-uv run ruff check .
-
-# Update dependencies
-uv sync --upgrade
+ruff check .
 ```
 
 ## Support
