@@ -1,6 +1,6 @@
 [project]
 name = "char-index-mcp"
-version = "0.1.1"
+version = "0.2.0"
 description = "A Model Context Protocol server for character-level index-based string manipulation"
 authors = [
     {name = "agent-hanju", email = "agent.hanju@gmail.com"},

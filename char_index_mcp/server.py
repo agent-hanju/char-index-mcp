@@ -19,7 +19,7 @@ Repository: https://github.com/agent-hanju/char-index-mcp
 
 from mcp.server.fastmcp import FastMCP
 import re
-from typing import Optional
+from typing import Annotated
 
 mcp = FastMCP("char-index")
 
@@ -29,26 +29,12 @@ mcp = FastMCP("char-index")
 # ========================================
 
 @mcp.tool()
-def find_nth_char(text: str, char: str, n: int = 1) -> int:
-    """
-    Find the index of the nth occurrence of a character.
-    
-    Use this when you need to locate a specific character occurrence,
-    like finding the 3rd comma in a CSV line or the 2nd quote in a string.
-    
-    Args:
-        text: Text to search in
-        char: Single character to find
-        n: Which occurrence to find (1-based, default: 1)
-    
-    Returns:
-        Zero-based index of the character, or -1 if not found
-    
-    Examples:
-        find_nth_char("hello world", "l", 1) -> 2
-        find_nth_char("hello world", "l", 3) -> 9
-        find_nth_char("hello", "x", 1) -> -1
-    """
+def find_nth_char(
+    text: Annotated[str, "Text to search in"],
+    char: Annotated[str, "Single character to find"],
+    n: Annotated[int, "Which occurrence to find (1-based)"] = 1
+) -> int:
+    """Find index of nth occurrence of a character. Returns -1 if not found."""
     if len(char) != 1:
         raise ValueError("char must be a single character")
     if n < 1:
@@ -64,24 +50,11 @@ def find_nth_char(text: str, char: str, n: int = 1) -> int:
 
 
 @mcp.tool()
-def find_all_char_indices(text: str, char: str) -> list[int]:
-    """
-    Find all indices where a character appears.
-    
-    Use this to get all positions of a character at once, useful for
-    analyzing patterns or finding multiple delimiters.
-    
-    Args:
-        text: Text to search in
-        char: Single character to find
-    
-    Returns:
-        List of zero-based indices (empty list if not found)
-    
-    Examples:
-        find_all_char_indices("hello world", "l") -> [2, 3, 9]
-        find_all_char_indices("test", "x") -> []
-    """
+def find_all_char_indices(
+    text: Annotated[str, "Text to search in"],
+    char: Annotated[str, "Single character to find"]
+) -> list[int]:
+    """Find all indices where a character appears. Returns empty list if not found."""
     if len(char) != 1:
         raise ValueError("char must be a single character")
     
@@ -89,26 +62,12 @@ def find_all_char_indices(text: str, char: str) -> list[int]:
 
 
 @mcp.tool()
-def find_nth_substring(text: str, substring: str, n: int = 1) -> int:
-    """
-    Find the starting index of the nth occurrence of a substring.
-    
-    Use this when searching for repeated patterns like finding the 2nd
-    occurrence of a word or the 3rd XML tag.
-    
-    Args:
-        text: Text to search in
-        substring: Substring to find
-        n: Which occurrence to find (1-based, default: 1)
-    
-    Returns:
-        Zero-based starting index, or -1 if not found
-    
-    Examples:
-        find_nth_substring("hello hello world", "hello", 1) -> 0
-        find_nth_substring("hello hello world", "hello", 2) -> 6
-        find_nth_substring("test", "xyz", 1) -> -1
-    """
+def find_nth_substring(
+    text: Annotated[str, "Text to search in"],
+    substring: Annotated[str, "Substring to find"],
+    n: Annotated[int, "Which occurrence to find (1-based)"] = 1
+) -> int:
+    """Find starting index of nth occurrence of a substring. Returns -1 if not found."""
     if not substring:
         raise ValueError("substring cannot be empty")
     if n < 1:
@@ -130,24 +89,11 @@ def find_nth_substring(text: str, substring: str, n: int = 1) -> int:
 
 
 @mcp.tool()
-def find_all_substring_indices(text: str, substring: str) -> list[int]:
-    """
-    Find all starting indices where a substring appears.
-    
-    Use this to locate all occurrences of a pattern at once, including
-    overlapping matches.
-    
-    Args:
-        text: Text to search in
-        substring: Substring to find
-    
-    Returns:
-        List of zero-based starting indices (empty list if not found)
-    
-    Examples:
-        find_all_substring_indices("hello hello world", "hello") -> [0, 6]
-        find_all_substring_indices("aaa", "aa") -> [0, 1]  # overlapping
-    """
+def find_all_substring_indices(
+    text: Annotated[str, "Text to search in"],
+    substring: Annotated[str, "Substring to find"]
+) -> list[int]:
+    """Find all starting indices where a substring appears (includes overlaps)."""
     if not substring:
         raise ValueError("substring cannot be empty")
     
@@ -169,25 +115,11 @@ def find_all_substring_indices(text: str, substring: str) -> list[int]:
 # ========================================
 
 @mcp.tool()
-def split_at_indices(text: str, indices: list[int]) -> list[str]:
-    """
-    Split text at specific index positions.
-    
-    Use this when you need to divide text at exact positions, not by
-    delimiters. Perfect for fixed-width parsing or position-based splitting.
-    
-    Args:
-        text: Text to split
-        indices: List of split positions (automatically sorted & deduplicated)
-    
-    Returns:
-        List of substrings (n indices = n+1 parts)
-    
-    Examples:
-        split_at_indices("hello world", [5]) -> ["hello", " world"]
-        split_at_indices("abcdef", [2, 4]) -> ["ab", "cd", "ef"]
-        split_at_indices("test", [1, 3, 1]) -> ["t", "es", "t"]  # auto-sorted
-    """
+def split_at_indices(
+    text: Annotated[str, "Text to split"],
+    indices: Annotated[list[int], "Split positions (auto-sorted & deduplicated)"]
+) -> list[str]:
+    """Split text at exact index positions. Indices auto-sorted and deduplicated."""
     if not indices:
         return [text]
     
@@ -216,26 +148,12 @@ def split_at_indices(text: str, indices: list[int]) -> list[str]:
 # ========================================
 
 @mcp.tool()
-def insert_at_index(text: str, index: int, insertion: str) -> str:
-    """
-    Insert text at a specific index position.
-    
-    Use this to inject content at precise positions without replacing
-    existing text. Supports negative indices.
-    
-    Args:
-        text: Original text
-        index: Position to insert at (negative = from end)
-        insertion: Text to insert
-    
-    Returns:
-        Modified text
-    
-    Examples:
-        insert_at_index("hello world", 5, ",") -> "hello, world"
-        insert_at_index("test", 0, "pre") -> "pretest"
-        insert_at_index("test", -1, "!") -> "test!"  # before last char
-    """
+def insert_at_index(
+    text: Annotated[str, "Original text"],
+    index: Annotated[int, "Position to insert at (negative = from end)"],
+    insertion: Annotated[str, "Text to insert"]
+) -> str:
+    """Insert text at index position without replacing. Supports negative indices."""
     if index < 0:
         index = max(0, len(text) + index + 1)
     
@@ -243,49 +161,23 @@ def insert_at_index(text: str, index: int, insertion: str) -> str:
 
 
 @mcp.tool()
-def delete_range(text: str, start: int, end: int) -> str:
-    """
-    Delete characters in the specified range [start, end).
-    
-    Use this to remove exact portions of text by position, like removing
-    a detected pattern or cleaning up specific ranges.
-    
-    Args:
-        text: Original text
-        start: Starting index (inclusive)
-        end: Ending index (exclusive)
-    
-    Returns:
-        Text with specified range removed
-    
-    Examples:
-        delete_range("hello world", 5, 11) -> "hello"
-        delete_range("test123", 4, 7) -> "test"
-    """
+def delete_range(
+    text: Annotated[str, "Original text"],
+    start: Annotated[int, "Starting index (inclusive)"],
+    end: Annotated[int, "Ending index (exclusive)"]
+) -> str:
+    """Delete characters in range [start, end)."""
     return text[:start] + text[end:]
 
 
 @mcp.tool()
-def replace_range(text: str, start: int, end: int, replacement: str) -> str:
-    """
-    Replace characters in a range [start, end) with new text.
-    
-    Use this to swap out exact portions, like replacing detected patterns
-    or updating specific text regions by position.
-    
-    Args:
-        text: Original text
-        start: Starting index (inclusive)
-        end: Ending index (exclusive)
-        replacement: Text to replace with
-    
-    Returns:
-        Modified text
-    
-    Examples:
-        replace_range("hello world", 6, 11, "Python") -> "hello Python"
-        replace_range("test", 0, 4, "best") -> "best"
-    """
+def replace_range(
+    text: Annotated[str, "Original text"],
+    start: Annotated[int, "Starting index (inclusive)"],
+    end: Annotated[int, "Ending index (exclusive)"],
+    replacement: Annotated[str, "Text to replace with"]
+) -> str:
+    """Replace characters in range [start, end) with new text."""
     return text[:start] + replacement + text[end:]
 
 
@@ -294,31 +186,11 @@ def replace_range(text: str, start: int, end: int, replacement: str) -> str:
 # ========================================
 
 @mcp.tool()
-def find_regex_matches(text: str, pattern: str) -> list[dict]:
-    """
-    Find all regex pattern matches with their exact positions.
-    
-    Use this for complex pattern matching where you need both the matched
-    text and its location, like finding all numbers, emails, or tags.
-    
-    Args:
-        text: Text to search in
-        pattern: Regular expression pattern
-    
-    Returns:
-        List of matches: [{"start": int, "end": int, "match": str}, ...]
-        Empty list if no matches found
-    
-    Examples:
-        find_regex_matches("test123abc456", r"\\d+")
-        -> [
-            {"start": 4, "end": 7, "match": "123"},
-            {"start": 10, "end": 13, "match": "456"}
-        ]
-        
-        find_regex_matches("hello@test.com", r"\\S+@\\S+")
-        -> [{"start": 0, "end": 14, "match": "hello@test.com"}]
-    """
+def find_regex_matches(
+    text: Annotated[str, "Text to search in"],
+    pattern: Annotated[str, "Regular expression pattern"]
+) -> list[dict]:
+    """Find all regex matches with positions. Returns list of {start, end, match} dicts."""
     try:
         matches = []
         for match in re.finditer(pattern, text):
@@ -334,51 +206,12 @@ def find_regex_matches(text: str, pattern: str) -> list[dict]:
 
 @mcp.tool()
 def extract_between_markers(
-    text: str, 
-    start_marker: str, 
-    end_marker: str, 
-    occurrence: int = 1
+    text: Annotated[str, "Text to search in"],
+    start_marker: Annotated[str, "Opening marker"],
+    end_marker: Annotated[str, "Closing marker"],
+    occurrence: Annotated[int, "Which occurrence to extract (1-based)"] = 1
 ) -> dict:
-    """
-    Extract content between two marker strings with position info.
-    
-    Use this to extract content wrapped by tags, brackets, or delimiters,
-    getting both the content and where it's located.
-    
-    Args:
-        text: Text to search in
-        start_marker: Opening marker
-        end_marker: Closing marker
-        occurrence: Which occurrence to extract (1-based, default: 1)
-    
-    Returns:
-        {
-            "content": str or None,       # extracted content
-            "content_start": int or None, # start of content (after start_marker)
-            "content_end": int or None,   # end of content (before end_marker)
-            "full_start": int or None,    # start of start_marker
-            "full_end": int or None       # end of end_marker
-        }
-    
-    Examples:
-        extract_between_markers("test[content]end", "[", "]", 1)
-        -> {
-            "content": "content",
-            "content_start": 5,
-            "content_end": 12,
-            "full_start": 4,
-            "full_end": 13
-        }
-        
-        extract_between_markers("<p>Hello</p>", "<p>", "</p>", 1)
-        -> {
-            "content": "Hello",
-            "content_start": 3,
-            "content_end": 8,
-            "full_start": 0,
-            "full_end": 12
-        }
-    """
+    """Extract content between markers with positions. Returns dict with content and position info."""
     if not start_marker or not end_marker:
         raise ValueError("Markers cannot be empty")
     if occurrence < 1:
@@ -424,37 +257,10 @@ def extract_between_markers(
 
 
 @mcp.tool()
-def count_chars(text: str) -> dict:
-    """
-    Count detailed character statistics.
-    
-    Use this when you need to verify exact string lengths, character
-    composition, or validate text constraints.
-    
-    Args:
-        text: Text to analyze
-    
-    Returns:
-        {
-            "total": int,           # total characters
-            "without_spaces": int,  # excluding all whitespace
-            "letters": int,         # alphabetic characters
-            "digits": int,          # numeric characters
-            "spaces": int,          # space characters
-            "special": int          # non-alphanumeric, non-space
-        }
-    
-    Examples:
-        count_chars("Hello World!")
-        -> {
-            "total": 12,
-            "without_spaces": 11,
-            "letters": 10,
-            "digits": 0,
-            "spaces": 1,
-            "special": 1
-        }
-    """
+def count_chars(
+    text: Annotated[str, "Text to analyze"]
+) -> dict:
+    """Count character statistics. Returns dict with total, without_spaces, letters, digits, spaces, special."""
     return {
         "total": len(text),
         "without_spaces": len(text.replace(" ", "")),
@@ -470,62 +276,11 @@ def count_chars(text: str) -> dict:
 # ========================================
 
 @mcp.tool()
-def extract_substrings(text: str, ranges: list[dict]) -> list[dict]:
-    """
-    Extract one or more substrings by exact index ranges.
-    
-    This is the unified tool for all extraction needs - from getting a single
-    character to batch-extracting multiple ranges. Supports negative indices.
-    
-    Use cases:
-    - Single character extraction: [{"start": 5, "end": 6}]
-    - Single range: [{"start": 0, "end": 5}]
-    - Multiple ranges: [{"start": 0, "end": 5}, {"start": 6, "end": 11}]
-    - From index to end: [{"start": 6}] (omit "end")
-    
-    Args:
-        text: Text to extract from
-        ranges: List of ranges, each with "start" (required) and "end" (optional)
-                Negative indices count from end: -1 = last char
-    
-    Returns:
-        List of extractions: [
-            {
-                "start": int,        # normalized start index
-                "end": int,          # normalized end index
-                "substring": str,    # extracted text
-                "length": int        # length of substring
-            },
-            ...
-        ]
-    
-    Examples:
-        # Single character (replaces get_char_at)
-        extract_substrings("hello", [{"start": 1, "end": 2}])
-        -> [{"start": 1, "end": 2, "substring": "e", "length": 1}]
-        
-        # Single range (replaces slice_by_index)
-        extract_substrings("hello world", [{"start": 0, "end": 5}])
-        -> [{"start": 0, "end": 5, "substring": "hello", "length": 5}]
-        
-        # Batch extraction
-        extract_substrings("hello world", [
-            {"start": 0, "end": 5},
-            {"start": 6, "end": 11}
-        ])
-        -> [
-            {"start": 0, "end": 5, "substring": "hello", "length": 5},
-            {"start": 6, "end": 11, "substring": "world", "length": 5}
-        ]
-        
-        # Negative indices
-        extract_substrings("hello", [{"start": -3, "end": -1}])
-        -> [{"start": 2, "end": 4, "substring": "ll", "length": 2}]
-        
-        # From index to end
-        extract_substrings("hello world", [{"start": 6}])
-        -> [{"start": 6, "end": 11, "substring": "world", "length": 5}]
-    """
+def extract_substrings(
+    text: Annotated[str, "Text to extract from"],
+    ranges: Annotated[list[dict], "List of ranges with 'start' (required) and 'end' (optional). Negative indices supported"]
+) -> list[dict]:
+    """Extract substrings by index ranges. Supports negative indices and omitting end. Returns list of {start, end, substring, length} dicts."""
     results = []
     text_len = len(text)
     
