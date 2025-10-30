@@ -21,3 +21,8 @@ build/
 
 # UV
 .uv/
+
+# Claude Code
+.claude/
+settings.local.json
+.mypy_cache/

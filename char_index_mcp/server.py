@@ -553,5 +553,10 @@ def extract_substrings(text: str, ranges: list[dict]) -> list[dict]:
     return results
 
 
-if __name__ == "__main__":
+def main():
+    """Entry point for the char-index-mcp CLI."""
     mcp.run()
+
+
+if __name__ == "__main__":
+    main()
