@@ -276,3 +276,8 @@ For issues, questions, or suggestions, please open an issue on GitHub.
 ---
 
 **Note**: This is the first MCP server specifically designed for index-based string manipulation. All other text MCP servers focus on counting, case conversion, or encoding - not precise character positioning.
+
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/agent-hanju-char-index-mcp).
+
