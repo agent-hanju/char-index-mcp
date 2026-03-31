@@ -1,11 +1,12 @@
-FROM python:3.11-slim
+# MCP server (char-index-mcp) Docker image
+FROM python:3.14-alpine
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
 
 WORKDIR /app
 
-COPY . .
+COPY pyproject.toml .
+COPY char_index_mcp/ char_index_mcp/
 RUN uv pip install --system .
 
-# 시스템에 설치되어 있으니 바로 실행
 CMD ["char-index-mcp"]

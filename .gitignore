@@ -4,6 +4,8 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+.mypy_cache/
+.ruff_cache/
 
 # Virtual Environment
 .venv/
@@ -23,6 +25,4 @@ build/
 .uv/
 
 # Claude Code
-.claude/
 settings.local.json
-.mypy_cache/

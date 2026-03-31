@@ -1,6 +1,8 @@
+# MCP server (char-index-mcp) build config for PyPI distribution.
+# The main project is a Claude Code Skill plugin (.claude-plugin/plugin.json).
 [project]
 name = "char-index-mcp"
-version = "0.2.1"
+version = "0.3.0"
 description = "A Model Context Protocol server for character-level index-based string manipulation"
 readme = "README.md"
 authors = [
@@ -19,16 +21,18 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Text Processing",
 ]
 
 [project.urls]
-Homepage = "https://github.com/agent-hanju/char-index-mcp"
-Repository = "https://github.com/agent-hanju/char-index-mcp"
-Documentation = "https://github.com/agent-hanju/char-index-mcp#readme"
-Issues = "https://github.com/agent-hanju/char-index-mcp/issues"
-Source = "https://github.com/agent-hanju/char-index-mcp"
+Homepage = "https://github.com/agent-hanju/char-index-skill"
+Repository = "https://github.com/agent-hanju/char-index-skill"
+Documentation = "https://github.com/agent-hanju/char-index-skill#readme"
+Issues = "https://github.com/agent-hanju/char-index-skill/issues"
+Source = "https://github.com/agent-hanju/char-index-skill"
 
 [project.scripts]
 char-index-mcp = "char_index_mcp.server:main"
@@ -44,4 +48,27 @@ packages = ["char_index_mcp"]
 dev-dependencies = [
     "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
+    "ruff>=0.11.0",
+    "mypy>=1.15.0",
 ]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+per-file-ignores = {"**/test_*.py" = ["E402", "I001"]}
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*", "char_index_mcp.tests.*"]
+disallow_untyped_defs = false

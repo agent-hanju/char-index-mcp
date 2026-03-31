@@ -1,5 +1,12 @@
-__pycache__
+__pycache__/
 *.pyc
-.venv
-.git
+.venv/
+.git/
 .gitignore
+.vscode/
+.idea/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.claude-plugin/
+skills/
