@@ -2,7 +2,12 @@
   "name": "char-index-skill",
   "version": "0.3.0",
   "description": "Character-level string manipulation: find nth char/substring, split at indices, extract ranges, modify at positions.",
-  "author": { "name": "agent-hanju" },
+  "author": {
+    "name": "agent-hanju",
+    "email": "agent.hanju@gmail.com",
+    "url": "https://github.com/agent-hanju"
+  },
+  "homepage": "https://github.com/agent-hanju/char-index-skill#readme",
   "repository": "https://github.com/agent-hanju/char-index-skill",
   "license": "MIT",
   "keywords": ["string", "character", "index", "manipulation", "parsing"],
