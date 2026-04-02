@@ -6,6 +6,8 @@ LLMs generate text token-by-token and struggle with exact character counting. Th
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> Evolved from [char-index-mcp](https://github.com/agent-hanju/char-index-mcp). The MCP server is still supported — see [MCP Server](#mcp-server-legacy) section.
+
 ## Installation
 
 ### As a Claude Code Plugin (Recommended)
