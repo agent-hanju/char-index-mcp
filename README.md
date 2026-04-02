@@ -1,4 +1,10 @@
-# char-index-mcp
+# char-index-mcp (Archived)
+
+> **This repository is archived.** This project has moved to [**char-index-skill**](https://github.com/agent-hanju/char-index-skill), now available as a Claude Code Skill plugin with continued MCP server support.
+>
+> Future updates to both the Skill and the MCP server (`char-index-mcp`) will be published from the new repository.
+
+---
 
 A Model Context Protocol (MCP) server providing **character-level index-based string manipulation**. Perfect for test code generation where precise character positioning matters.
 
@@ -6,8 +12,6 @@ A Model Context Protocol (MCP) server providing **character-level index-based st
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyPI](https://img.shields.io/pypi/v/char-index-mcp)](https://pypi.org/project/char-index-mcp/)
 [![Python](https://img.shields.io/pypi/pyversions/char-index-mcp)](https://pypi.org/project/char-index-mcp/)
-
-> This project was created with Claude AI.
 
 ## 🎯 Why This Exists
 
